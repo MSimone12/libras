@@ -1,25 +1,64 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import * as handtrack from "handtrackjs";
+import Webcam from "webcam-easy";
+import constants from "./constants";
+import { Switch, Route, Redirect } from "react-router-dom";
+import IntroPage from "./modules/intro";
+import LandingPage from "./modules/landing";
+import InstructionsPage from "./modules/instructions";
+import { modelParams } from "./handtrack";
 
-function App() {
+const startWebcam = async (webcamElement) => {
+  const webcam = new Webcam(webcamElement, "user");
+
+  await webcam.start();
+
+  return webcam;
+};
+
+let webcam;
+
+const App = () => {
+  const [started, setStarted] = useState(false);
+  const [detected, setDetected] = useState(false);
+
+  const startDetection = (model, element) => async () => {
+    const predictions = await model.detect(element);
+
+    setDetected(predictions.some((prediction) => prediction.label === "open"));
+
+    requestAnimationFrame(startDetection(model, element));
+  };
+
+  const start = async () => {
+    const webcamEl = document.getElementById("videotrack");
+    webcam = await startWebcam(webcamEl);
+    const model = await handtrack.load(modelParams);
+
+    setStarted(true);
+    await startDetection(model, webcamEl)();
+  };
+
+  useEffect(() => {
+    return () => {
+      webcam?.stop();
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Switch>
+      <Route exact path={constants.routes.landing} component={LandingPage} />
+      <Route path={constants.routes.intro} component={IntroPage} />
+      <Route path={constants.routes.instructions}>
+        <InstructionsPage
+          started={started}
+          detected={detected}
+          onInit={start}
+        />
+      </Route>
+      <Redirect to={constants.routes.landing} />
+    </Switch>
   );
-}
+};
 
 export default App;
