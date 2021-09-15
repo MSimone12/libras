@@ -17,8 +17,10 @@ import Logo from "../components/logo";
 
 const instructions = [first, second, third, fourth, fifth];
 
+const getCounterDetectedColor = ({ started, detected }) => (started ? (detected ? "#009900" : "#990000") : "#c78920");
+
 const Instructions = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
   background: url(${bgMain}) center no-repeat;
@@ -35,7 +37,7 @@ const Instructions = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: "instructions" "detection";
-    overflow: scroll;
+    overflow-y: scroll;
   }
 `;
 
@@ -93,7 +95,6 @@ const RightContainer = styled.div`
 `;
 
 const RightFrame = styled.div`
-  background: url(${frame}) center no-repeat;
   width: 100%;
   height: 100%;
 
@@ -109,14 +110,16 @@ const RightFrame = styled.div`
 `;
 
 const Hand = styled.img`
-  height: 95%;
   @media screen and (max-width: 768px) {
-    height: 90%;
+    display: none;
+  }
+  @media screen and (min-width: 768px) {
+    height: 95%;
   }
 `;
 
 const Counter = styled.p`
-  color: #c78902;
+  color: ${getCounterDetectedColor};
   font-size: 32px;
   text-transform: uppercase;
 `;
@@ -178,7 +181,9 @@ const InstructionsPage = ({ started, detected, onInit, close }) => {
         </LeftContainer>
         <RightContainer>
           <RightFrame>
-            <Counter>{counter < 3 ? counter : "Mão Detectada"}</Counter>
+            <Counter started={started} detected={detected}>
+              {counter < 3 ? counter : "Mão Detectada"}
+            </Counter>
             <Hand alt="" src={started ? (detected ? hands.DETECTED : hands.NOT_DETECTED) : hands.DEACTIVATED} />
           </RightFrame>
         </RightContainer>

@@ -6,7 +6,7 @@ import Button from "../components/button";
 import { useHistory } from "react-router";
 
 const Landing = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: url(${bg});
 
@@ -55,11 +55,7 @@ const LandingPage = () => {
             </>
           ))}
         </div>
-        <Button
-          label={"Começar"}
-          secondary
-          onClick={() => history.replace(constants.routes.intro)}
-        />
+        <Button label={"Começar"} secondary onClick={() => history.replace(constants.routes.intro)} />
       </TextContainer>
     </Landing>
   );

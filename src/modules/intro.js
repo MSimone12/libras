@@ -6,7 +6,7 @@ import { useHistory } from "react-router";
 import constants from "../constants";
 
 const Intro = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
 
   background-image: url(${bgIntro});
@@ -149,10 +149,7 @@ const IntroPage = ({ buttonLabel }) => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button
-              label={"Começar a ouvir com as mãos"}
-              onClick={() => history.replace(constants.routes.instructions)}
-            />
+            <Button label={"Começar a ouvir com as mãos"} onClick={() => history.replace(constants.routes.instructions)} />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>

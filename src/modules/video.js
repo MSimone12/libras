@@ -15,9 +15,11 @@ const getDetectedString = ({ detected }) => (detected ? "ATIVADO" : "DESATIVADO"
 const getDetectedBackgroundColor = ({ detected }) => (detected ? "#fff" : "#c78920");
 const getDetectedColor = ({ detected }) => (detected ? "#c78920" : "#fff");
 
+const getCounterDetectedColor = ({ started, detected }) => (started ? (detected ? "#009900" : "#990000") : "#c78920");
+
 const Video = styled.div`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   background: url(${bgMain}) center no-repeat;
 
   display: grid;
@@ -169,7 +171,7 @@ const Counter = styled.p`
 
 const MobileCounter = styled.p`
   @media screen and (max-width: 768px) {
-    color: #c78902;
+    color: ${getCounterDetectedColor};
     font-size: 16px;
     text-transform: uppercase;
     position: absolute;
@@ -264,7 +266,9 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
 
   return (
     <>
-      <MobileCounter>{counter < 3 ? counter : "MÃO DETECTADA"}</MobileCounter>
+      <MobileCounter started={started} detected={detected}>
+        {counter < 3 ? counter : "MÃO DETECTADA"}
+      </MobileCounter>
       <Video>
         <VideoContainer>
           <VideoPlayerContainer detected={activated}>

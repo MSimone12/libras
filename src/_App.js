@@ -4,14 +4,14 @@ import IntroPage from "./modules/intro";
 import AppRoutes from "./routes";
 import { CircularProgress } from "@material-ui/core";
 
-import bg from './assets/bg.jpg'
+import bg from "./assets/bg.jpg";
 import { useCallback, useEffect, useState } from "react";
 import { handtrack, init } from "./handtrack";
 import VideoPage from "./modules/video";
 
 const Root = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,8 +20,7 @@ const Root = styled.div`
   overflow: hidden;
 `;
 
-
-const Video = styled.video.attrs({autoplay: 'autoplay', id: 'videotrack'})`
+const Video = styled.video.attrs({ autoplay: "autoplay", id: "videotrack" })`
   height: 15vh !important;
   position: fixed;
   left: 5px;
@@ -31,7 +30,7 @@ const Video = styled.video.attrs({autoplay: 'autoplay', id: 'videotrack'})`
   @media screen and (max-width: 425px) {
     right: 5px;
   }
-`
+`;
 
 const Loader = styled.div`
   display: flex;
@@ -46,63 +45,60 @@ const Loader = styled.div`
   height: 100%;
   z-index: 10;
   background-color: rgba(0, 0, 0, 0.4);
-`
-
+`;
 
 const App = () => {
-  const [currentRoute, setCurrentRoute] = useState(AppRoutes.intro)
-  const [loading, setLoading] = useState(false)
+  const [currentRoute, setCurrentRoute] = useState(AppRoutes.intro);
+  const [loading, setLoading] = useState(false);
   const [started, setStarted] = useState(false);
   const [detected, setDetected] = useState(false);
 
-  const runDetection = useCallback((video, model) => () =>  {
-    model.detect(video).then(predictions => {
-      setDetected(predictions.some(prediction => ['open'].includes(prediction.label)));
-      requestAnimationFrame(runDetection(video, model));
-    })
-  
-  }, [])
+  const runDetection = useCallback(
+    (video, model) => () => {
+      model.detect(video).then((predictions) => {
+        setDetected(predictions.some((prediction) => ["open"].includes(prediction.label)));
+        requestAnimationFrame(runDetection(video, model));
+      });
+    },
+    []
+  );
 
   const start = useCallback(async () => {
-    setLoading(true)
-    const video = document.getElementById('videotrack')
+    setLoading(true);
+    const video = document.getElementById("videotrack");
 
-    const model = await init()
-    
+    const model = await init();
+
     const { status } = await handtrack.startVideo(video);
 
-    setLoading(false)
-    
+    setLoading(false);
+
     setStarted(status);
 
     requestAnimationFrame(runDetection(video, model));
-    
-  }, [runDetection])
+  }, [runDetection]);
 
   useEffect(() => {
     let timeout;
 
     if (detected) {
-      timeout = setTimeout(() => setCurrentRoute(AppRoutes.video), 3000)
+      timeout = setTimeout(() => setCurrentRoute(AppRoutes.video), 3000);
     } else {
-      if(timeout) clearTimeout(timeout);
+      if (timeout) clearTimeout(timeout);
     }
-
-  }, [detected])
-
+  }, [detected]);
 
   const loadCurrentRoute = (route) => {
-
     switch (route) {
       case AppRoutes.intro:
-        return <IntroPage started={started} detected={detected} onStart={() => start()} />
-        
-      case AppRoutes.video:  
-        return <VideoPage hasHand={detected} />
+        return <IntroPage started={started} detected={detected} onStart={() => start()} />;
+
+      case AppRoutes.video:
+        return <VideoPage hasHand={detected} />;
       default:
-        return <IntroPage started={started} detected={detected} onStart={() => start()} />
+        return <IntroPage started={started} detected={detected} onStart={() => start()} />;
     }
-  }
+  };
 
   return (
     <>
@@ -110,14 +106,12 @@ const App = () => {
         {loadCurrentRoute(currentRoute)}
         <Video />
       </Root>
-      {
-        loading && (
-          <Loader>
-            <CircularProgress />
-          </Loader>
-        )
-      }
-  </>
+      {loading && (
+        <Loader>
+          <CircularProgress />
+        </Loader>
+      )}
+    </>
   );
 };
 
