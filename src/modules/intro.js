@@ -102,16 +102,11 @@ const RightDescriptionContainer = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
-    padding: 0;
-    align-items: flex-start;
+    padding: 0 16px 16px 0;
   }
 `;
 
-const RightButtonContainer = styled.div`
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
-`;
+const RightButtonContainer = styled.div``;
 
 const SizedBox = styled.div`
   height: ${(props) => props.height}px;
@@ -129,7 +124,7 @@ const RightDescription = styled.p`
   }
 `;
 
-const IntroPage = () => {
+const IntroPage = ({ buttonLabel }) => {
   const history = useHistory();
   return (
     <Intro>

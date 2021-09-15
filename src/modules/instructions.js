@@ -11,6 +11,9 @@ import fourth from "../assets/icones/4.png";
 import fifth from "../assets/icones/5.png";
 import hands from "../hands";
 import VideoTrack from "../components/video";
+import { useHistory } from "react-router";
+import constants from "../constants";
+import Logo from "../components/logo";
 
 const instructions = [first, second, third, fourth, fifth];
 
@@ -25,7 +28,7 @@ const Instructions = styled.div`
   grid-template-rows: 1fr;
   grid-template-areas: "instructions detection empty";
 
-  @media screen and (max-width: 425px) {
+  @media screen and (max-width: 768px) {
     background: url(${bg}) center no-repeat;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
@@ -63,7 +66,7 @@ const Title = styled.p`
   letter-spacing: calc((100vw / 3) / 24);
   padding-left: calc((100vw / 3) / 24);
 
-  @media screen and (max-width: 425px) {
+  @media screen and (max-width: 768px) {
     font-size: calc(100vw / 10);
     letter-spacing: calc(100vw / 24);
     padding-left: calc(100vw / 24);
@@ -88,45 +91,65 @@ const RightContainer = styled.div`
 `;
 
 const RightFrame = styled.div`
-  height: 80%;
+  background: url(${frame}) center no-repeat;
   width: 100%;
-
-  background: url(${frame}) no-repeat;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
-  position: relative;
+  @media screen and (max-width: 768px) {
+    background: none;
+    height: 90%;
+  }
 `;
 
 const Hand = styled.img`
   height: 95%;
-  position: relative;
-  bottom: 0;
-  right: -10%;
+  @media screen and (max-width: 768px) {
+    height: 90%;
+  }
 `;
 
 const Counter = styled.p`
-  position: relative;
-  top: 0;
-  right: -10%;
   color: #c78902;
-  font-size: 24px;
+  font-size: 32px;
   text-transform: uppercase;
 `;
 
-const InstructionsPage = ({ started, detected, onInit }) => {
+const LogoContainer = styled.div`
+  position: absolute;
+  bottom: 10%;
+
+  height: 10vh;
+  width: 10vh;
+
+  @media screen and (max-width: 768px) {
+    height: 10vw;
+    width: 10vw;
+    left: 8%;
+  }
+  @media screen and (min-width: 769px) {
+    right: 8%;
+  }
+`;
+
+const InstructionsPage = ({ started, detected, onInit, onStartDetection }) => {
+  const history = useHistory();
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     onInit();
-  }, []);
+  }, [onInit]);
+
+  useEffect(() => {
+    if (started) onStartDetection();
+  }, [started]);
 
   useEffect(() => {
     const interval = setInterval(() => setCounter((old) => old + 1), 1000);
-    console.log(detected);
     if (!detected) {
       setCounter(0);
       clearInterval(interval);
@@ -136,6 +159,12 @@ const InstructionsPage = ({ started, detected, onInit }) => {
       clearInterval(interval);
     };
   }, [detected]);
+
+  useEffect(() => {
+    if (counter === 3) {
+      history.replace(constants.routes.video);
+    }
+  }, [counter, history]);
 
   return (
     <>
@@ -165,6 +194,9 @@ const InstructionsPage = ({ started, detected, onInit }) => {
         </RightContainer>
       </Instructions>
       <VideoTrack />
+      <LogoContainer>
+        <Logo fontSize={24} />
+      </LogoContainer>
     </>
   );
 };

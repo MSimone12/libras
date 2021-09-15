@@ -27,11 +27,14 @@ const VideoContainer = styled.div`
   @media screen and (max-width: 425px) {
     height: 40vw;
     width: 40vw;
+  }
+  @media screen and (max-width: 768px) {
+    height: 20vw;
+    width: 20vw;
 
     bottom: 5%;
-    right: 5%;
   }
-  @media screen and (min-width: 426px) {
+  @media screen and (min-width: 769px) {
     top: 5%;
   }
 `;
@@ -43,6 +46,10 @@ const Video = styled.video`
   @media screen and (max-width: 425px) {
     height: 40vw;
     width: 40vw;
+  }
+  @media screen and (max-width: 768px) {
+    height: 20vw;
+    width: 20vw;
   }
 `;
 
