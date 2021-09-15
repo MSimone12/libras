@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import constants from "./constants";
 import { Switch, Route, Redirect } from "react-router-dom";
 import IntroPage from "./modules/intro";
@@ -12,6 +12,14 @@ const App = () => {
   const [started, setStarted] = useState(false);
   const [detected, setDetected] = useState(false);
 
+  const start = useCallback(async (started) => {
+    if (started) {
+      const detection = Detection.startDetection((pred) => setDetected(pred.some((prediction) => prediction.label === "open")));
+
+      await detection();
+    }
+  }, []);
+
   const init = useCallback(async () => {
     if (!started) {
       const _started = await Detection.init();
@@ -19,40 +27,27 @@ const App = () => {
     }
   }, [started]);
 
-  const start = useCallback(async () => {
-    const predictions = Detection.startDetection();
+  useEffect(() => {
+    console.log(started);
+    start(started);
+  }, [started, start]);
 
-    for await (let prediction of predictions) {
-      if (prediction != null) {
-        setDetected(
-          prediction.some((prediction) => prediction.label === "open")
-        );
-      }
-    }
-  }, [started]);
-
-  const stop = useCallback(() => Detection.dispose(), []);
+  const close = useCallback(() => {
+    setStarted(false);
+  }, []);
 
   return (
     <Switch>
       <Route exact path={constants.routes.landing} component={LandingPage} />
       <Route path={constants.routes.intro} component={IntroPage} />
-      <Route path={constants.routes.replay} component={ReplayPage} />
+      <Route path={constants.routes.replay}>
+        <ReplayPage onInit={close} />
+      </Route>
       <Route path={constants.routes.instructions}>
-        <InstructionsPage
-          started={started}
-          detected={detected}
-          onInit={init}
-          onStartDetection={start}
-        />
+        <InstructionsPage started={started} detected={detected} onInit={init} close={close} />
       </Route>
       <Route path={constants.routes.video}>
-        <VideoPage
-          onInit={init}
-          onStartDetection={start}
-          onClose={stop}
-          hasHand={started && detected}
-        />
+        <VideoPage onInit={init} started={started} detected={detected} onClose={close} />
       </Route>
       <Redirect to={constants.routes.landing} />
     </Switch>

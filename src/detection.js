@@ -8,32 +8,32 @@ const modelParams = {
   scoreThreshold: 0.8,
 };
 
-const _model = handtrack.load(modelParams);
+export const webcamEl = () => document.getElementById("videotrack");
+
+let model;
 
 let webcam;
 
 export const init = async () => {
-  const webcamEl = document.getElementById("videotrack");
-
-  webcam = new Webcam(webcamEl, "user");
+  webcam = new Webcam(webcamEl(), "user");
 
   await webcam.start();
+
+  model = await handtrack.load(modelParams);
 
   return true;
 };
 
-export async function* startDetection() {
-  const model = await _model;
-  const webcamEl = document.getElementById("videotrack");
-  const predictions = await model.detect(webcamEl);
-  console.log(predictions);
-  yield predictions;
+export const startDetection = (setPredictions) => async () => {
+  try {
+    const predictions = await model.detect(webcamEl());
+    setPredictions(predictions);
+  } catch (error) {}
 
-  yield* startDetection();
-}
+  requestAnimationFrame(startDetection(setPredictions));
+};
 
 export const dispose = async () => {
-  const model = await _model;
   model.dispose();
   webcam.stop();
 };

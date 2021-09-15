@@ -11,10 +11,8 @@ import hands from "../hands";
 import Logo from "../components/logo";
 import { useHistory } from "react-router";
 
-const getDetectedString = ({ detected }) =>
-  detected ? "ATIVADO" : "DESATIVADO";
-const getDetectedBackgroundColor = ({ detected }) =>
-  detected ? "#fff" : "#c78920";
+const getDetectedString = ({ detected }) => (detected ? "ATIVADO" : "DESATIVADO");
+const getDetectedBackgroundColor = ({ detected }) => (detected ? "#fff" : "#c78920");
 const getDetectedColor = ({ detected }) => (detected ? "#c78920" : "#fff");
 
 const Video = styled.div`
@@ -27,12 +25,14 @@ const Video = styled.div`
   grid-template-rows: 1fr;
   grid-template-areas: "video tracker";
 
+  overflow: hidden;
+
   @media screen and (max-width: 768px) {
     background: url(${bg}) center no-repeat;
     grid-template-rows: 1fr;
     grid-template-columns: 1fr;
     grid-template-areas: "video";
-    overflow-y: scroll;
+    overflow: scroll;
   }
 `;
 
@@ -209,12 +209,13 @@ const videos = {
   nonDetected: non_detected,
 };
 
-const VideoPage = ({ hasHand, onInit, onClose }) => {
+const VideoPage = ({ started, detected, onInit, onClose }) => {
   const history = useHistory();
-  const [currentVideo, setCurrentVideo] = useState(null);
+  const [currentVideo, setCurrentVideo] = useState(videos.nonDetected);
   const [currentTime, setCurrentTime] = useState(0);
   const [activated, setActivated] = useState(false);
   const [counter, setCounter] = useState(0);
+  const [lockDetection, setLockDetection] = useState(false);
 
   useEffect(() => {
     onInit();
@@ -226,26 +227,32 @@ const VideoPage = ({ hasHand, onInit, onClose }) => {
     media.addEventListener("ended", () => {
       history.replace(constants.routes.replay);
     });
-  }, [onInit]);
+  }, [onInit, onClose, history]);
 
   useEffect(() => {
-    const interval = setInterval(() => setCounter((count) => count + 1), 1000);
+    let interval;
+    if (!lockDetection) {
+      interval = setInterval(() => setCounter((count) => count + 1), 1000);
 
-    if (!hasHand) {
-      setCounter(0);
-      clearInterval(interval);
+      if (!detected) {
+        setCounter(0);
+        clearInterval(interval);
+      }
+    } else {
+      if (!detected) setLockDetection(false);
     }
 
     return () => {
       clearInterval(interval);
     };
-  }, [hasHand]);
+  }, [detected, lockDetection]);
 
   useEffect(() => {
-    if (counter >= 3)
-      setCurrentVideo((current) =>
-        current === videos.detected ? videos.nonDetected : videos.detected
-      );
+    if (counter >= 3) {
+      setCounter(0);
+      setLockDetection(true);
+      setCurrentVideo((current) => (current === videos.detected ? videos.nonDetected : videos.detected));
+    }
   }, [counter]);
 
   useEffect(() => {
@@ -261,25 +268,16 @@ const VideoPage = ({ hasHand, onInit, onClose }) => {
       <Video>
         <VideoContainer>
           <VideoPlayerContainer detected={activated}>
-            <VideoPlayer
-              id="videoplayer"
-              src={currentVideo}
-              autoPlay
-              playsInline
-            />
+            <VideoPlayer id="videoplayer" src={currentVideo} autoPlay />
           </VideoPlayerContainer>
           <InstructionsContainer>
-            <InstructionsText>
-              {activated
-                ? constants.video.activated
-                : constants.video.deactivated}
-            </InstructionsText>
+            <InstructionsText>{activated ? constants.video.activated : constants.video.deactivated}</InstructionsText>
           </InstructionsContainer>
         </VideoContainer>
         <TrackerContainer>
           <RightFrame>
             <Counter>{counter < 3 ? counter : "MÃO DETECTADA"}</Counter>
-            <Hand src={hasHand ? hands.DETECTED : hands.DEACTIVATED} />
+            <Hand src={detected ? hands.DETECTED : started ? hands.NOT_DETECTED : hands.DEACTIVATED} />
           </RightFrame>
         </TrackerContainer>
       </Video>

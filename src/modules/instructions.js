@@ -28,12 +28,14 @@ const Instructions = styled.div`
   grid-template-rows: 1fr;
   grid-template-areas: "instructions detection empty";
 
+  overflow: hidden;
+
   @media screen and (max-width: 768px) {
     background: url(${bg}) center no-repeat;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas: "instructions" "detection";
-    overflow-y: scroll;
+    overflow: scroll;
   }
 `;
 
@@ -136,17 +138,13 @@ const LogoContainer = styled.div`
   }
 `;
 
-const InstructionsPage = ({ started, detected, onInit, onStartDetection }) => {
+const InstructionsPage = ({ started, detected, onInit, close }) => {
   const history = useHistory();
   const [counter, setCounter] = useState(0);
 
   useEffect(() => {
     onInit();
   }, [onInit]);
-
-  useEffect(() => {
-    if (started) onStartDetection();
-  }, [started]);
 
   useEffect(() => {
     const interval = setInterval(() => setCounter((old) => old + 1), 1000);
@@ -162,9 +160,10 @@ const InstructionsPage = ({ started, detected, onInit, onStartDetection }) => {
 
   useEffect(() => {
     if (counter === 3) {
+      close();
       history.replace(constants.routes.video);
     }
-  }, [counter, history]);
+  }, [counter, history, close]);
 
   return (
     <>
@@ -180,16 +179,7 @@ const InstructionsPage = ({ started, detected, onInit, onStartDetection }) => {
         <RightContainer>
           <RightFrame>
             <Counter>{counter < 3 ? counter : "Mão Detectada"}</Counter>
-            <Hand
-              alt=""
-              src={
-                started
-                  ? detected
-                    ? hands.DETECTED
-                    : hands.NOT_DETECTED
-                  : hands.DEACTIVATED
-              }
-            />
+            <Hand alt="" src={started ? (detected ? hands.DETECTED : hands.NOT_DETECTED) : hands.DEACTIVATED} />
           </RightFrame>
         </RightContainer>
       </Instructions>

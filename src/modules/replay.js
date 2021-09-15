@@ -4,6 +4,7 @@ import bg from "../assets/bg.jpg";
 import Button from "../components/button";
 import { useHistory } from "react-router";
 import constants from "../constants";
+import { useEffect } from "react";
 
 const Intro = styled.div`
   width: 100vw;
@@ -130,7 +131,11 @@ const RightDescription = styled.p`
   }
 `;
 
-const ReplayPage = () => {
+const ReplayPage = ({ onInit }) => {
+  useEffect(() => {
+    onInit();
+  }, [onInit]);
+
   const history = useHistory();
   return (
     <Intro>
@@ -158,10 +163,7 @@ const ReplayPage = () => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button
-              label={"Ouvir novamente"}
-              onClick={() => history.replace(constants.routes.instructions)}
-            />
+            <Button label={"Ouvir novamente"} onClick={() => history.replace(constants.routes.instructions)} />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>
