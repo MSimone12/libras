@@ -20,7 +20,7 @@ const VideoContainer = styled.div`
     display: block;
     position: absolute;
     background: #080808;
-    width: calc(100% + 10px);
+    width: calc(100% + 12px);
     height: 85%;
   }
 
@@ -53,9 +53,10 @@ const Video = styled.video`
   }
 `;
 
-const VideoTrack = () => {
+const VideoTrack = ({ className }) => {
+  console.log(className);
   return (
-    <VideoContainer>
+    <VideoContainer className={className}>
       <Video id="videotrack" autoPlay playsInline />
     </VideoContainer>
   );

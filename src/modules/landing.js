@@ -6,7 +6,7 @@ import Button from "../components/button";
 import { useHistory } from "react-router";
 
 const Landing = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   background: url(${bg});
 
@@ -32,13 +32,13 @@ const TextContainer = styled.div`
 `;
 
 const LandingText = styled.p`
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: bold;
   color: white;
   word-spacing: 5px;
   margin: 0;
   padding: 0;
-  line-height: 32px;
+  line-height: 2rem;
 `;
 
 const LandingPage = () => {

@@ -16,13 +16,13 @@ const Intro = styled.div`
   background-repeat: no-repeat;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
 
   @media screen and (max-width: 768px) {
     background: url(${bg}) center;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
 
     overflow-y: scroll;
   }
@@ -78,10 +78,6 @@ const LeftDescription = styled.p`
   font-size: 2rem;
   color: #fff;
   text-transform: uppercase;
-
-  @media screen and (max-width: 768px) {
-    font-size: 1rem;
-  }
 `;
 
 const RightContainer = styled.div`
@@ -122,18 +118,16 @@ const RightDescription = styled.p`
   color: #fff;
   text-transform: uppercase;
   letter-spacing: 9.3px;
-  font-size: 0.8rem;
-  letter-spacing: 0.3rem;
 
   @media screen and (max-width: 768px) {
-    font-size: 0.5rem;
-    letter-spacing: 0.2rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.3rem;
   }
 `;
 
 const ReplayPage = ({ onInit }) => {
   useEffect(() => {
-    onInit();
+    onInit(true);
   }, [onInit]);
 
   const history = useHistory();
@@ -163,7 +157,7 @@ const ReplayPage = ({ onInit }) => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button label={"Ouvir novamente"} onClick={() => history.replace(constants.routes.instructions)} />
+            <Button label={"Ouvir novamente"} onClick={() => history.replace(constants.routes.instructions.first)} />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>

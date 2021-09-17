@@ -15,25 +15,23 @@ const getDetectedString = ({ detected }) => (detected ? "ATIVADO" : "DESATIVADO"
 const getDetectedBackgroundColor = ({ detected }) => (detected ? "#fff" : "#c78920");
 const getDetectedColor = ({ detected }) => (detected ? "#c78920" : "#fff");
 
-const getCounterDetectedColor = ({ started, detected }) => (started ? (detected ? "#009900" : "#990000") : "#c78920");
-
 const Video = styled.div`
   height: 100vh;
-  width: 100%;
-  background: url(${bgMain}) center no-repeat;
+  width: 100vw;
+  background-image: url(${bgMain});
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: "video tracker";
-
-  overflow: hidden;
+  grid-template-columns: 50% 30% 20%;
+  grid-template-rows: 100%;
+  grid-template-areas: "video tracker logo";
 
   @media screen and (max-width: 768px) {
     background: url(${bg}) center no-repeat;
-    grid-template-rows: 1fr;
-    grid-template-columns: 1fr;
-    grid-template-areas: "video";
+    grid-template-rows: 50% 50%;
+    grid-template-columns: 60% 40%;
+    grid-template-areas: "video video" "tracker logo";
     overflow: scroll;
   }
 `;
@@ -61,7 +59,7 @@ const VideoPlayerContainer = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 95%;
-    margin-top: 96px;
+    margin-top: 48px;
   }
 
   &::before {
@@ -128,32 +126,23 @@ const TrackerContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: flex-end;
-
-  @media screen and (max-width: 768px) {
-    display: none;
-  }
 `;
 
 const RightFrame = styled.div`
-  height: 50%;
-
-  margin: 0 0 16px 0;
+  width: 100%;
+  height: 100%;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  @media screen and (max-width: 768px) {
-    background: none;
-    height: 90%;
-  }
 `;
 
 const Hand = styled.img`
-  height: 95%;
+  height: 90%;
+
   @media screen and (max-width: 768px) {
-    height: 90%;
+    width: 100%;
   }
 `;
 
@@ -161,49 +150,28 @@ const Counter = styled.p`
   color: #c78902;
   font-size: 32px;
   text-transform: uppercase;
-
-  @media screen and (max-width: 768px) {
-    position: absolute;
-
-    top: 8px;
-  }
-`;
-
-const MobileCounter = styled.p`
-  @media screen and (max-width: 768px) {
-    color: ${getCounterDetectedColor};
-    font-size: 16px;
-    text-transform: uppercase;
-    position: absolute;
-    top: 16px;
-    left: calc(50% - 16px);
-    right: calc(50% - 16px);
-  }
-  @media screen and (min-width: 769px) {
-    display: none;
-  }
 `;
 
 const LogoContainer = styled.div`
-  position: absolute;
+  grid-area: logo;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
 
-  height: 10vh;
-  width: 10vh;
+  & > * {
+    margin: 10%;
+  }
+`;
 
-  bottom: 10%;
-
-  @media screen and (max-width: 425px) {
-    bottom: 20%;
-  }
-  @media screen and (max-width: 768px) {
-    height: 10vw;
-    width: 10vw;
-    left: 5%;
-    bottom: 15%;
-  }
-  @media screen and (min-width: 769px) {
-    right: 5%;
-  }
+const VideoTracker = styled(VideoTrack)`
+  position: relative;
+  top: unset;
+  left: unset;
+  right: unset;
+  bottom: unset;
 `;
 
 const videos = {
@@ -250,7 +218,7 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
   }, [detected, lockDetection]);
 
   useEffect(() => {
-    if (counter >= 3) {
+    if (counter >= 2) {
       setCounter(0);
       setLockDetection(true);
       setCurrentVideo((current) => (current === videos.detected ? videos.nonDetected : videos.detected));
@@ -266,9 +234,6 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
 
   return (
     <>
-      <MobileCounter started={started} detected={detected}>
-        {counter < 3 ? counter : "MÃO DETECTADA"}
-      </MobileCounter>
       <Video>
         <VideoContainer>
           <VideoPlayerContainer detected={activated}>
@@ -284,11 +249,11 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
             <Hand src={detected ? hands.DETECTED : started ? hands.NOT_DETECTED : hands.DEACTIVATED} />
           </RightFrame>
         </TrackerContainer>
+        <LogoContainer>
+          <VideoTracker />
+          <Logo fontSize={24} />
+        </LogoContainer>
       </Video>
-      <VideoTrack />
-      <LogoContainer>
-        <Logo fontSize={24} />
-      </LogoContainer>
     </>
   );
 };

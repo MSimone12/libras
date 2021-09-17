@@ -7,6 +7,7 @@ import InstructionsPage from "./modules/instructions";
 import VideoPage from "./modules/video";
 import ReplayPage from "./modules/replay";
 import * as Detection from "./detection";
+import FirstInstructionsPage from "./modules/first_instructions";
 
 const App = () => {
   const [started, setStarted] = useState(false);
@@ -32,8 +33,11 @@ const App = () => {
     start(started);
   }, [started, start]);
 
-  const close = useCallback(() => {
+  const close = useCallback(async (force) => {
     setStarted(false);
+    if (force) {
+      await Detection.dispose();
+    }
   }, []);
 
   return (
@@ -43,7 +47,10 @@ const App = () => {
       <Route path={constants.routes.replay}>
         <ReplayPage onInit={close} />
       </Route>
-      <Route path={constants.routes.instructions}>
+      <Route path={constants.routes.instructions.first}>
+        <FirstInstructionsPage started={started} detected={detected} onInit={init} close={close} />
+      </Route>
+      <Route path={constants.routes.instructions.second}>
         <InstructionsPage started={started} detected={detected} onInit={init} close={close} />
       </Route>
       <Route path={constants.routes.video}>

@@ -34,6 +34,6 @@ export const startDetection = (setPredictions) => async () => {
 };
 
 export const dispose = async () => {
-  model.dispose();
-  webcam.stop();
+  model?.dispose();
+  webcam?.stop();
 };

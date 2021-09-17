@@ -15,7 +15,7 @@ const Label = styled.p`
 
   @media screen and (max-width: 768px) {
     font-size: 1rem;
-    padding: 4px 4px;
+    padding: 8px 16px;
   }
 `;
 

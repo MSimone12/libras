@@ -15,13 +15,13 @@ const Intro = styled.div`
   background-repeat: no-repeat;
 
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 100%;
 
   @media screen and (max-width: 768px) {
     background: url(${bg}) center;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 100%;
+    grid-template-rows: 50% 50%;
 
     overflow-y: scroll;
   }
@@ -149,7 +149,7 @@ const IntroPage = ({ buttonLabel }) => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button label={"Começar a ouvir com as mãos"} onClick={() => history.replace(constants.routes.instructions)} />
+            <Button label={"Começar a ouvir com as mãos"} onClick={() => history.replace(constants.routes.instructions.first)} />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>
