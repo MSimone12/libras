@@ -60,12 +60,12 @@ const Secondary = styled(Base)`
     content: "";
     display: block;
     position: absolute;
-    background: #050505;
+    background: #1f1f1f;
     transition: 0.5s;
   }
 
   &:hover {
-    background: #050505;
+    background: #1f1f1f;
   }
 
   &::before {

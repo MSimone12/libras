@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.jpg";
+import bg from "../assets/bg.png";
 import hands from "../hands";
 import VideoTrack from "../components/video";
 import { useHistory } from "react-router";
@@ -13,7 +13,7 @@ const getCounterDetectedColor = ({ started, detected }) => (started ? (detected 
 
 const Instructions = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 
   background-image: url(${bgMain});
   background-size: 100% 100%;

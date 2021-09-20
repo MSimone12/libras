@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import bgIntro from "../assets/bg_intro.jpg";
-import bg from "../assets/bg.jpg";
+import bg from "../assets/bg.png";
 import Button from "../components/button";
 import { useHistory } from "react-router";
 import constants from "../constants";
 
 const Intro = styled.div`
   width: 100%;
-  height: 100vh;
+  height: 100%;
 
   background-image: url(${bgIntro});
   background-size: cover;

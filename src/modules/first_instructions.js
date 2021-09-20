@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.jpg";
+import bg from "../assets/bg.png";
 import first from "../assets/icones/1.png";
 import second from "../assets/icones/2.png";
 import third from "../assets/icones/3.png";
@@ -16,7 +16,7 @@ const instructions = [first, second, third, fourth, fifth];
 
 const Instructions = styled.div`
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 
   background-image: url(${bgMain});
   background-size: 100% 100%;

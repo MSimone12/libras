@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import detected from "../assets/first_video.mp4";
-import non_detected from "../assets/second_video.mp4";
+import detected from "../assets/video1.mp4";
+import non_detected from "../assets/video2.mp4";
 import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.jpg";
+import bg from "../assets/bg.png";
 import VideoTrack from "../components/video";
 import constants from "../constants";
 import hands from "../hands";
@@ -16,7 +16,7 @@ const getDetectedBackgroundColor = ({ detected }) => (detected ? "#fff" : "#c789
 const getDetectedColor = ({ detected }) => (detected ? "#c78920" : "#fff");
 
 const Video = styled.div`
-  height: 100vh;
+  height: 100%;
   width: 100vw;
   background-image: url(${bgMain});
   background-size: 100% 100%;
@@ -230,6 +230,8 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
     media.currentTime = currentTime;
 
     setActivated(currentVideo === videos.detected);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentVideo]);
 
   return (
@@ -237,7 +239,7 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
       <Video>
         <VideoContainer>
           <VideoPlayerContainer detected={activated}>
-            <VideoPlayer id="videoplayer" src={currentVideo} autoPlay />
+            <VideoPlayer id="videoplayer" src={currentVideo} autoPlay playsInline preload="auto" muted={false} controls />
           </VideoPlayerContainer>
           <InstructionsContainer>
             <InstructionsText>{activated ? constants.video.activated : constants.video.deactivated}</InstructionsText>
