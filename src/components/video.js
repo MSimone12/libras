@@ -54,7 +54,6 @@ const Video = styled.video`
 `;
 
 const VideoTrack = ({ className }) => {
-  console.log(className);
   return (
     <VideoContainer className={className}>
       <Video id="videotrack" autoPlay playsInline />

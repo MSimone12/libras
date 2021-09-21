@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.png";
 import hands from "../hands";
 import VideoTrack from "../components/video";
 import { useHistory } from "react-router";
@@ -12,25 +10,17 @@ import Logo from "../components/logo";
 const getCounterDetectedColor = ({ started, detected }) => (started ? (detected ? "#009900" : "#990000") : "#c78920");
 
 const Instructions = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
-
-  background-image: url(${bgMain});
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center;
 
   display: grid;
   grid-template-columns: 80% 20%;
   grid-template-rows: 100%;
   grid-template-areas: "detection logo";
 
-  /* overflow: hidden; */
-
   @media screen and (max-width: 768px) {
-    background: url(${bg}) center no-repeat;
     grid-template-columns: 1fr;
-    grid-template-rows: 30% 70%;
+    grid-template-rows: 40% 60%;
     grid-template-areas: "logo" "detection";
     overflow-y: scroll;
   }

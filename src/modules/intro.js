@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import bgIntro from "../assets/bg_intro.jpg";
-import bg from "../assets/bg.png";
 import Button from "../components/button";
 import { useHistory } from "react-router";
 import constants from "../constants";
@@ -9,19 +7,13 @@ const Intro = styled.div`
   width: 100%;
   height: 100%;
 
-  background-image: url(${bgIntro});
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   display: grid;
   grid-template-columns: 50% 50%;
   grid-template-rows: 100%;
 
   @media screen and (max-width: 768px) {
-    background: url(${bg}) center;
     grid-template-columns: 100%;
-    grid-template-rows: 50% 50%;
+    grid-template-rows: 70% 30%;
 
     overflow-y: scroll;
   }
@@ -87,6 +79,11 @@ const RightContainer = styled.div`
   flex-direction: column;
   align-items: flex-end;
   justify-content: flex-end;
+
+  @media screen and (max-width: 768px) {
+    align-items: center;
+    justify-content: flex-start;
+  }
 `;
 
 const RightDescriptionContainer = styled.div`
@@ -102,7 +99,9 @@ const RightDescriptionContainer = styled.div`
   @media screen and (max-width: 768px) {
     width: 100%;
     height: 100%;
-    padding: 0 16px 16px 0;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

@@ -1,36 +1,29 @@
 import styled from "styled-components";
 
-import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.png";
 import first from "../assets/icones/1.png";
 import second from "../assets/icones/2.png";
 import third from "../assets/icones/3.png";
 import fourth from "../assets/icones/4.png";
-import fifth from "../assets/icones/5.png";
 import { useHistory } from "react-router";
 import constants from "../constants";
 import Logo from "../components/logo";
 import Button from "../components/button";
 
-const instructions = [first, second, third, fourth, fifth];
+const instructions = [first, second, third, fourth];
 
 const Instructions = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
-
-  background-image: url(${bgMain});
-  background-size: 100% 100%;
 
   display: grid;
   grid-template-columns: 80% 20%;
-  grid-template-rows: 100%;
-  grid-template-areas: "instructions logo";
+  grid-template-rows: 80% 20%;
+  grid-template-areas: "instructions logo" "button button";
 
   @media screen and (max-width: 768px) {
-    background: url(${bg}) center no-repeat;
-    grid-template-columns: 100%;
+    grid-template-columns: 50% 50%;
     grid-template-rows: 80% 20%;
-    grid-template-areas: "instructions" "logo";
+    grid-template-areas: "instructions instructions" "logo button";
     overflow-y: scroll;
   }
 `;
@@ -97,6 +90,17 @@ const LogoContainer = styled.div`
   }
 `;
 
+const ButtonContainer = styled.div`
+  grid-area: button;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const FirstInstructionsPage = () => {
   const history = useHistory();
 
@@ -113,8 +117,10 @@ const FirstInstructionsPage = () => {
         </LeftContainer>
         <LogoContainer>
           <Logo fontSize={24} />
-          <Button label={"Continuar"} onClick={() => history.replace(constants.routes.instructions.second)} />
         </LogoContainer>
+        <ButtonContainer>
+          <Button label={"Continuar"} onClick={() => history.replace(constants.routes.instructions.second)} />
+        </ButtonContainer>
       </Instructions>
     </>
   );

@@ -9,14 +9,17 @@ import ReplayPage from "./modules/replay";
 import * as Detection from "./detection";
 import FirstInstructionsPage from "./modules/first_instructions";
 import styled from "styled-components";
+import Loader from "./components/loader";
 
 const AppContainer = styled.div`
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
+  background-color: #1a1a1a;
 `;
 
 const App = () => {
   const [started, setStarted] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [detected, setDetected] = useState(false);
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
@@ -42,10 +45,13 @@ const App = () => {
 
   const init = useCallback(async () => {
     if (!started) {
-      const _started = await Detection.init();
+      setLoading(true);
+      console.log(dimensions.width);
+      const _started = await Detection.init(dimensions.width <= 768);
       setStarted(_started);
+      setLoading(false);
     }
-  }, [started]);
+  }, [started, dimensions]);
 
   useEffect(() => {
     console.log(started);
@@ -61,6 +67,9 @@ const App = () => {
 
   return (
     <AppContainer width={dimensions.width} height={dimensions.height}>
+      <Loader loading={loading}>
+        <h1>CARREGANDO...</h1>
+      </Loader>
       <Switch>
         <Route exact path={constants.routes.landing} component={LandingPage} />
         <Route path={constants.routes.intro} component={IntroPage} />

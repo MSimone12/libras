@@ -3,12 +3,11 @@ import styled from "styled-components";
 
 import detected from "../assets/video1.mp4";
 import non_detected from "../assets/video2.mp4";
-import bgMain from "../assets/bg_main.jpg";
-import bg from "../assets/bg.png";
 import VideoTrack from "../components/video";
 import constants from "../constants";
 import hands from "../hands";
 import Logo from "../components/logo";
+import Button from "../components/button";
 import { useHistory } from "react-router";
 
 const getDetectedString = ({ detected }) => (detected ? "ATIVADO" : "DESATIVADO");
@@ -17,10 +16,7 @@ const getDetectedColor = ({ detected }) => (detected ? "#c78920" : "#fff");
 
 const Video = styled.div`
   height: 100%;
-  width: 100vw;
-  background-image: url(${bgMain});
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
+  width: 100%;
 
   display: grid;
   grid-template-columns: 50% 30% 20%;
@@ -28,7 +24,6 @@ const Video = styled.div`
   grid-template-areas: "video tracker logo";
 
   @media screen and (max-width: 768px) {
-    background: url(${bg}) center no-repeat;
     grid-template-rows: 50% 50%;
     grid-template-columns: 60% 40%;
     grid-template-areas: "video video" "tracker logo";
@@ -112,7 +107,7 @@ const InstructionsText = styled.p`
   font-size: 24px;
   color: #fff;
   @media screen and (max-width: 768px) {
-    font-size: 16px;
+    font-size: 12px;
   }
 `;
 
@@ -174,14 +169,29 @@ const VideoTracker = styled(VideoTrack)`
   bottom: unset;
 `;
 
+const Message = styled.div`
+  position: absolute;
+  bottom: 0;
+
+  height: 10%;
+  width: 100%;
+
+  background-color: #c78920;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+`;
+
 const videos = {
-  detected: detected,
-  nonDetected: non_detected,
+  detected: non_detected,
+  nonDetected: detected,
 };
 
 const VideoPage = ({ started, detected, onInit, onClose }) => {
   const history = useHistory();
-  const [currentVideo, setCurrentVideo] = useState(videos.nonDetected);
+  const [shouldShowMessage, setShouldShowMessage] = useState(true);
+  const [currentVideo, setCurrentVideo] = useState(videos.detected);
   const [currentTime, setCurrentTime] = useState(0);
   const [activated, setActivated] = useState(false);
   const [counter, setCounter] = useState(0);
@@ -256,6 +266,12 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
           <Logo fontSize={24} />
         </LogoContainer>
       </Video>
+      {shouldShowMessage && (
+        <Message>
+          <InstructionsText>Caso o video não começe automaticamente, aperte o botao play.</InstructionsText>
+          <Button label={"Entendido"} onClick={() => setShouldShowMessage(false)} />
+        </Message>
+      )}
     </>
   );
 };

@@ -3,7 +3,14 @@ import * as handtrack from "handtrackjs";
 
 const modelParams = {
   flipHorizontal: true,
-  maxNumBoxes: 20,
+  maxNumBoxes: 10,
+  iouThreshold: 0.5,
+  scoreThreshold: 0.8,
+};
+
+const mobileModelParams = {
+  flipHorizontal: false,
+  maxNumBoxes: 10,
   iouThreshold: 0.5,
   scoreThreshold: 0.8,
 };
@@ -14,12 +21,12 @@ let model;
 
 let webcam;
 
-export const init = async () => {
-  webcam = new Webcam(webcamEl(), "user");
+export const init = async (isMobile = false) => {
+  webcam = new Webcam(webcamEl(), "environment");
 
   await webcam.start();
 
-  model = await handtrack.load(modelParams);
+  model = await handtrack.load(isMobile ? mobileModelParams : modelParams);
 
   return true;
 };

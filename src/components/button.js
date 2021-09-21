@@ -70,11 +70,11 @@ const Secondary = styled(Base)`
 
   &::before {
     width: 80%;
-    height: calc(100% + 10px);
+    height: calc(100% + 12px);
   }
   &::after {
     height: 80%;
-    width: calc(100% + 10px);
+    width: calc(100% + 11px);
   }
   &:hover::before {
     width: 0;

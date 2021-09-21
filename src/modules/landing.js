@@ -1,15 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import bg from "../assets/bg.png";
 import constants from "../constants";
 import Button from "../components/button";
 import { useHistory } from "react-router";
 
 const Landing = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100%;
-  background: url(${bg}) center no-repeat;
-  background-size: 100% 100%;
 
   display: flex;
   flex-direction: column;
