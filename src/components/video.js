@@ -19,7 +19,7 @@ const VideoContainer = styled.div`
     content: "";
     display: block;
     position: absolute;
-    background: #080808;
+    background: #1a1a1a;
     width: calc(100% + 12px);
     height: 85%;
   }

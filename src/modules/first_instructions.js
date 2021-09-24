@@ -9,6 +9,8 @@ import constants from "../constants";
 import Logo from "../components/logo";
 import Button from "../components/button";
 
+import bgIntro from "../assets/bg_main.png";
+
 const instructions = [first, second, third, fourth];
 
 const Instructions = styled.div`
@@ -18,9 +20,14 @@ const Instructions = styled.div`
   display: grid;
   grid-template-columns: 80% 20%;
   grid-template-rows: 80% 20%;
-  grid-template-areas: "instructions logo" "button button";
+  grid-template-areas: "instructions instructions" "button logo";
+
+  background-image: url(${bgIntro});
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
   @media screen and (max-width: 768px) {
+    background: none;
     grid-template-columns: 50% 50%;
     grid-template-rows: 80% 20%;
     grid-template-areas: "instructions instructions" "logo button";
@@ -82,7 +89,7 @@ const LogoContainer = styled.div`
   width: 100%;
 
   & > * {
-    margin: 10%;
+    margin: auto;
   }
 
   @media screen and (max-width: 768px) {
@@ -116,10 +123,10 @@ const FirstInstructionsPage = () => {
           </InstructionsContainer>
         </LeftContainer>
         <LogoContainer>
-          <Logo fontSize={24} />
+          <Logo fontSize={18} />
         </LogoContainer>
         <ButtonContainer>
-          <Button label={"Continuar"} onClick={() => history.replace(constants.routes.instructions.second)} />
+          <Button dtm="instructions" label={"Continuar"} onClick={() => history.replace(constants.routes.instructions.second)} />
         </ButtonContainer>
       </Instructions>
     </>

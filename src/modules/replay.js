@@ -4,6 +4,8 @@ import { useHistory } from "react-router";
 import constants from "../constants";
 import { useEffect } from "react";
 
+import bgIntro from "../assets/bg_intro.png";
+
 const Intro = styled.div`
   width: 100%;
   height: 100%;
@@ -12,7 +14,12 @@ const Intro = styled.div`
   grid-template-columns: 50% 50%;
   grid-template-rows: 100%;
 
+  background-image: url(${bgIntro});
+  background-repeat: no-repeat;
+  background-size: cover;
+
   @media screen and (max-width: 768px) {
+    background: none;
     grid-template-columns: 100%;
     grid-template-rows: 50% 50%;
 
@@ -67,13 +74,17 @@ const LeftDescriptionContainer = styled.div`
 `;
 
 const LeftDescription = styled.p`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #fff;
   text-transform: uppercase;
+  letter-spacing: 5px;
 
   @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
+`;
+const Highlight = styled.span`
+  color: #c78920;
 `;
 
 const RightContainer = styled.div`
@@ -101,7 +112,8 @@ const RightDescriptionContainer = styled.div`
     height: 100%;
     padding: 0;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
+    padding: 0 0 16px;
   }
 `;
 
@@ -139,11 +151,15 @@ const ReplayPage = ({ onInit }) => {
           <LeftTitle>{"MÃOS"}</LeftTitle>
         </LeftTitleContainer>
         <LeftDescriptionContainer>
-          <LeftDescription>{"No Brasil, apenas 1%"}</LeftDescription>
-          <LeftDescription>{"dos sites são acessiveis"}</LeftDescription>
+          <LeftDescription>{"Apenas 1% dos sites"}</LeftDescription>
+          <LeftDescription>{"são acessíveis, E o da"}</LeftDescription>
+          <LeftDescription>{"Chevrolet é um deles"}</LeftDescription>
           <SizedBox height={16} />
-          <LeftDescription>{"Acesse o da Chevrolet"}</LeftDescription>
-          <LeftDescription>{"e conheça a Maya"}</LeftDescription>
+          <LeftDescription>{"Aproveite este 26 de setembro,"}</LeftDescription>
+          <LeftDescription>
+            <Highlight>{"Dia nacional do surdo"}</Highlight>
+          </LeftDescription>
+          <LeftDescription>{"Pra conhecer a Maya"}</LeftDescription>
           <LeftDescription>{"Nossa tradutora virtual"}</LeftDescription>
           <LeftDescription>{"de Libras."}</LeftDescription>
         </LeftDescriptionContainer>
@@ -155,7 +171,7 @@ const ReplayPage = ({ onInit }) => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button label={"Ouvir novamente"} onClick={() => history.replace(constants.routes.instructions.first)} />
+            <Button dtm="hear it again" label={"Ouvir novamente"} onClick={() => history.replace(constants.routes.instructions.first)} />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>

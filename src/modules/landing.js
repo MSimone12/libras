@@ -4,14 +4,24 @@ import constants from "../constants";
 import Button from "../components/button";
 import { useHistory } from "react-router";
 
+import bg from "../assets/bg.png";
+
 const Landing = styled.div`
   width: 100%;
   height: 100%;
+
+  background-image: url(${bg});
+  background-position: center;
+  background-size: cover;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 768px) {
+    background: none;
+  }
 `;
 
 const TextContainer = styled.div`
@@ -36,7 +46,16 @@ const LandingText = styled.p`
   word-spacing: 5px;
   margin: 0;
   padding: 0;
-  line-height: 2rem;
+  line-height: 4rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+    line-height: 2rem;
+  }
+`;
+
+const Highlight = styled.span`
+  color: #c78920;
 `;
 
 const LandingPage = () => {
@@ -46,14 +65,13 @@ const LandingPage = () => {
     <Landing>
       <TextContainer>
         <div>
-          {constants.landing.text.split("\n").map((e, i) => (
-            <>
-              <LandingText key={i}>{e}</LandingText>
-              <br />
-            </>
-          ))}
+          <LandingText>NO BRASIL, HÁ MAIS DE 10 MILHÕES DE SURDOS.</LandingText>
+          <LandingText>
+            ELES SE CONECTAM COM O MUNDO <Highlight>USANDO AS MÃOS.</Highlight>
+          </LandingText>
+          <LandingText>E AGORA, É DESSE JEITO QUE VOCÊ VAI OUVIR UM NOVO SUCESSO.</LandingText>
         </div>
-        <Button label={"Começar"} secondary onClick={() => history.replace(constants.routes.intro)} />
+        <Button dtm="intro" label={"Próximo"} onClick={() => history.replace(constants.routes.intro)} />
       </TextContainer>
     </Landing>
   );

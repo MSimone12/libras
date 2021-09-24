@@ -7,8 +7,9 @@ import VideoTrack from "../components/video";
 import constants from "../constants";
 import hands from "../hands";
 import Logo from "../components/logo";
-import Button from "../components/button";
 import { useHistory } from "react-router";
+
+import bg from "../assets/bg.png";
 
 const getDetectedString = ({ detected }) => (detected ? "ATIVADO" : "DESATIVADO");
 const getDetectedBackgroundColor = ({ detected }) => (detected ? "#fff" : "#c78920");
@@ -19,12 +20,17 @@ const Video = styled.div`
   width: 100%;
 
   display: grid;
-  grid-template-columns: 50% 30% 20%;
+  grid-template-columns: 70% 15% 15%;
   grid-template-rows: 100%;
   grid-template-areas: "video tracker logo";
 
+  background-image: url(${bg});
+  background-position: center;
+  background-size: cover;
+
   @media screen and (max-width: 768px) {
-    grid-template-rows: 50% 50%;
+    background: none;
+    grid-template-rows: 55% 45%;
     grid-template-columns: 60% 40%;
     grid-template-areas: "video video" "tracker logo";
     overflow: scroll;
@@ -62,7 +68,7 @@ const VideoPlayerContainer = styled.div`
       width: calc(100% + 10px);
       font-size: 16px;
     }
-    content: "MODO OUVIR COM AS MÃOS ${getDetectedString}";
+    content: "MODO LIBRAS ${getDetectedString}";
     position: absolute;
     z-index: 10;
 
@@ -88,13 +94,15 @@ const VideoPlayer = styled.video`
   height: 100%;
   position: relative;
   z-index: 0;
+  border: none;
 `;
 
 const InstructionsContainer = styled.div`
   width: 80%;
 
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
   margin: 24px 0 0;
 
@@ -104,11 +112,15 @@ const InstructionsContainer = styled.div`
 `;
 
 const InstructionsText = styled.p`
-  font-size: 24px;
+  font-size: 18px;
   color: #fff;
   @media screen and (max-width: 768px) {
-    font-size: 12px;
+    font-size: 10px;
   }
+`;
+
+const Highlight = styled.span`
+  color: #c78920;
 `;
 
 const TrackerContainer = styled.div`
@@ -116,11 +128,6 @@ const TrackerContainer = styled.div`
 
   width: 100%;
   height: 100%;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
 `;
 
 const RightFrame = styled.div`
@@ -130,13 +137,17 @@ const RightFrame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
 `;
 
 const Hand = styled.img`
-  height: 90%;
+  height: auto;
+  justify-self: flex-end;
 
   @media screen and (max-width: 768px) {
+    height: 80%;
+  }
+  @media screen and (min-width: 769px) {
     width: 100%;
   }
 `;
@@ -169,20 +180,6 @@ const VideoTracker = styled(VideoTrack)`
   bottom: unset;
 `;
 
-const Message = styled.div`
-  position: absolute;
-  bottom: 0;
-
-  height: 10%;
-  width: 100%;
-
-  background-color: #c78920;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-evenly;
-`;
-
 const videos = {
   detected: non_detected,
   nonDetected: detected,
@@ -190,7 +187,6 @@ const videos = {
 
 const VideoPage = ({ started, detected, onInit, onClose }) => {
   const history = useHistory();
-  const [shouldShowMessage, setShouldShowMessage] = useState(true);
   const [currentVideo, setCurrentVideo] = useState(videos.detected);
   const [currentTime, setCurrentTime] = useState(0);
   const [activated, setActivated] = useState(false);
@@ -249,10 +245,23 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
       <Video>
         <VideoContainer>
           <VideoPlayerContainer detected={activated}>
-            <VideoPlayer id="videoplayer" src={currentVideo} autoPlay playsInline preload="auto" muted={false} controls />
+            <VideoPlayer
+              className="q-video"
+              data-dtm="hands-on"
+              id="videoplayer"
+              src={currentVideo}
+              autoPlay
+              playsInline
+              preload="auto"
+              muted={false}
+              controls
+            />
           </VideoPlayerContainer>
           <InstructionsContainer>
             <InstructionsText>{activated ? constants.video.activated : constants.video.deactivated}</InstructionsText>
+            <InstructionsText>
+              <Highlight>Caso o vídeo não começe automaticamente, aperte o play.</Highlight>
+            </InstructionsText>
           </InstructionsContainer>
         </VideoContainer>
         <TrackerContainer>
@@ -263,15 +272,9 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
         </TrackerContainer>
         <LogoContainer>
           <VideoTracker />
-          <Logo fontSize={24} />
+          <Logo fontSize={18} />
         </LogoContainer>
       </Video>
-      {shouldShowMessage && (
-        <Message>
-          <InstructionsText>Caso o video não começe automaticamente, aperte o botao play.</InstructionsText>
-          <Button label={"Entendido"} onClick={() => setShouldShowMessage(false)} />
-        </Message>
-      )}
     </>
   );
 };

@@ -3,6 +3,8 @@ import Button from "../components/button";
 import { useHistory } from "react-router";
 import constants from "../constants";
 
+import bgIntro from "../assets/bg_intro.png";
+
 const Intro = styled.div`
   width: 100%;
   height: 100%;
@@ -11,7 +13,12 @@ const Intro = styled.div`
   grid-template-columns: 50% 50%;
   grid-template-rows: 100%;
 
+  background-image: url(${bgIntro});
+  background-repeat: no-repeat;
+  background-size: cover;
+
   @media screen and (max-width: 768px) {
+    background: none;
     grid-template-columns: 100%;
     grid-template-rows: 70% 30%;
 
@@ -148,7 +155,11 @@ const IntroPage = ({ buttonLabel }) => {
           </div>
           <SizedBox height={16} />
           <RightButtonContainer>
-            <Button label={"Começar a ouvir com as mãos"} onClick={() => history.replace(constants.routes.instructions.first)} />
+            <Button
+              dtm="use your hands"
+              label={"Começar a ouvir com as mãos"}
+              onClick={() => history.replace(constants.routes.instructions.first)}
+            />
           </RightButtonContainer>
         </RightDescriptionContainer>
       </RightContainer>

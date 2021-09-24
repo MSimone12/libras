@@ -84,13 +84,13 @@ const Secondary = styled(Base)`
   }
 `;
 
-const Button = ({ secondary = false, label, onClick }) => {
+const Button = ({ secondary = false, label, onClick, dtm }) => {
   return !secondary ? (
-    <Primary onClick={onClick}>
+    <Primary onClick={onClick} className="stat-button-link" data-dtm={dtm}>
       <Label>{label}</Label>
     </Primary>
   ) : (
-    <Secondary onClick={onClick}>
+    <Secondary onClick={onClick} className="stat-button-link" data-dtm={dtm}>
       <Label>{label}</Label>
     </Secondary>
   );

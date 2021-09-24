@@ -7,6 +7,8 @@ import { useHistory } from "react-router";
 import constants from "../constants";
 import Logo from "../components/logo";
 
+import bgIntro from "../assets/bg_main.png";
+
 const getCounterDetectedColor = ({ started, detected }) => (started ? (detected ? "#009900" : "#990000") : "#c78920");
 
 const Instructions = styled.div`
@@ -14,16 +16,32 @@ const Instructions = styled.div`
   height: 100%;
 
   display: grid;
-  grid-template-columns: 80% 20%;
+  grid-template-columns: 20% 1fr 20%;
   grid-template-rows: 100%;
-  grid-template-areas: "detection logo";
+  grid-template-areas: "instructions detection logo";
+
+  background-image: url(${bgIntro});
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 
   @media screen and (max-width: 768px) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 40% 60%;
-    grid-template-areas: "logo" "detection";
-    overflow-y: scroll;
+    background: none;
+    grid-template-columns: 100%;
+    grid-template-rows: 30% 30% 40%;
+    grid-template-areas: "logo" "instructions" "detection";
   }
+`;
+
+const InstructionsContainer = styled.div`
+  grid-area: instructions;
+
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 const RightContainer = styled.div`
@@ -50,7 +68,13 @@ const RightFrame = styled.div`
 `;
 
 const Hand = styled.img`
-  height: 95%;
+  @media screen and (min-width: 769px) {
+    height: 95%;
+  }
+
+  @media screen and (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
 const Counter = styled.p`
@@ -85,6 +109,37 @@ const Video = styled(VideoTrack)`
   bottom: unset;
 `;
 
+const InstructionTextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  padding: 0 16px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0 4px;
+  }
+`;
+
+const HelpText = styled.p`
+  text-align: left;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  word-spacing: 5px;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 3px;
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+`;
+
+const Highlight = styled.span`
+  color: #c78920;
+`;
+
 const InstructionsPage = ({ started, detected, onInit, close }) => {
   const history = useHistory();
   const [counter, setCounter] = useState(0);
@@ -115,10 +170,21 @@ const InstructionsPage = ({ started, detected, onInit, close }) => {
   return (
     <>
       <Instructions>
+        <InstructionsContainer>
+          <InstructionTextContainer>
+            <HelpText>
+              <Highlight>VAMOS LA?</Highlight>
+            </HelpText>
+            <HelpText>COLOQUE A MÃO</HelpText>
+            <HelpText>A UNS 15 CM DA CÂMERA</HelpText>
+            <HelpText>PARA UM MELHOR</HelpText>
+            <HelpText>RECONHECIMENTO</HelpText>
+          </InstructionTextContainer>
+        </InstructionsContainer>
         <RightContainer>
           <RightFrame>
             <Counter started={started} detected={detected}>
-              {counter < 3 ? counter : "Mão Detectada"}
+              {counter < 2 ? counter : "Mão Detectada"}
             </Counter>
             <Hand alt="" src={started ? (detected ? hands.DETECTED : hands.NOT_DETECTED) : hands.DEACTIVATED} />
           </RightFrame>

@@ -1,10 +1,10 @@
 const constants = {
   landing: {
-    text: `PARA OS MAIS DE 10 MILHÕES DE BRASILEIROS SURDOS,\nAS MÃOS SÃO O CAMINHO PARA SE CONECTAREM COM TUDO\nDE MELHOR DO MUNDO.`,
+    text: `NO BRASIL, HÁ MAIS DE 10 MILHÕES DE SURDOS.\nELES SE CONECTAM COM O MUNDO USANDO AS MÃOS.\nE AGORA, É DESSE JEITO QUE VOCÊ VAI OUVIR UM NOVO\n SUCESSO.`,
   },
   video: {
-    deactivated: "Para ativar o modo Ouvir Com As Mãos, mostre a mão pra câmera por 2 segundos.",
-    activated: "Para desativar este modo, mostre a mão pra câmera por 2 segundos.",
+    deactivated: "Para ativar o modo libras, mostre a mão pra câmera por 2 segundos.",
+    activated: "Para ativar o modo cantado, mostre a mão pra câmera por 2 segundos.",
   },
 
   routes: {
