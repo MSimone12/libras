@@ -25,14 +25,34 @@
     -->
     <title>Hand Talk</title>
 
-    <!-- <script src="//assets.adobedtm.com/ea8c57fea068/8545c8a794c6/launch-1e29bc454c96-staging.min.js"></script> -->
+    <script>
+      var digitalData = window.digitalData || {
+        pageInfo: {},
+      };
+
+      digitalData.pageInfo.pageName = "ch:SA:BR:pt:t1:listen-with-your-hands";
+      digitalData.pageInfo.siteSectionsLevel1 = "listen-with-your-hands";
+      digitalData.pageInfo.siteSectionsLevel2 = "undefined";
+      digitalData.pageInfo.siteSectionsLevel3 = "undefined";
+      digitalData.pageInfo.siteSectionsLevel4 = "undefined";
+      digitalData.pageInfo.siteSectionsLevel5 = "undefined";
+      digitalData.pageInfo.languageSelected = "portuguese";
+      digitalData.pageInfo.country = "brazil";
+      digitalData.pageInfo.region = "south america";
+      digitalData.pageInfo.brand = "chevrolet";
+      digitalData.pageInfo.pageType = "brand cwsp";
+      digitalData.pageInfo.siteName = "quantum_brazil";
+      digitalData.pageInfo.url = window.location.href;
+    </script>
+
+    <script src="//assets.adobedtm.com/ea8c57fea068/8545c8a794c6/launch-1e29bc454c96-staging.min.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script src="https://assets.gm.com/responsive-iframe.min.js"></script>
-    <!-- <script type="text/javascript">
-      _satellite.pageBottom();
-    </script> -->
+    <script type="text/javascript">
+      if (typeof _satellite !== "undefined") _satellite.pageBottom();
+    </script>
   </body>
 </html>

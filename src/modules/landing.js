@@ -58,6 +58,11 @@ const Highlight = styled.span`
   color: #c78920;
 `;
 
+const SizedBox = styled.div`
+  height: ${(props) => props.height}px;
+  width: ${(props) => props.width}px;
+`;
+
 const LandingPage = () => {
   const history = useHistory();
 
@@ -66,10 +71,16 @@ const LandingPage = () => {
       <TextContainer>
         <div>
           <LandingText>NO BRASIL, HÁ MAIS DE 10 MILHÕES DE SURDOS.</LandingText>
+          <LandingText>E É COM AS MÃOS QUE ELES OUVEM O MUNDO, ATRAVÉS</LandingText>
           <LandingText>
-            ELES SE CONECTAM COM O MUNDO <Highlight>USANDO AS MÃOS.</Highlight>
+            DA <Highlight>LIBRAS</Highlight>.
           </LandingText>
-          <LandingText>E AGORA, É DESSE JEITO QUE VOCÊ VAI OUVIR UM NOVO SUCESSO.</LandingText>
+          <SizedBox height={32} />
+          <LandingText>AGORA VOCÊ PODE OUVIR O NOVO SUCESSO</LandingText>
+          <LandingText>
+            DA <Highlight>MELIM</Highlight> ASSIM TAMBÉM.
+          </LandingText>
+          <SizedBox height={32} />
         </div>
         <Button dtm="intro" label={"Próximo"} onClick={() => history.replace(constants.routes.intro)} />
       </TextContainer>
