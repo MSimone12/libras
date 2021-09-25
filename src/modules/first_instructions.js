@@ -52,8 +52,9 @@ const LeftContainer = styled.div`
 const InstructionsContainer = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   flex-wrap: wrap;
+  width: 100%;
 `;
 
 const Title = styled.p`
@@ -72,10 +73,11 @@ const Title = styled.p`
 `;
 
 const InstructionImg = styled.img`
-  width: 20vw;
-
+  @media screen and (min-width: 426px) {
+    height: 12vw;
+  }
   @media screen and (max-width: 425px) {
-    width: 50%;
+    width: 40%;
   }
 `;
 
@@ -126,7 +128,7 @@ const FirstInstructionsPage = () => {
           <Logo fontSize={18} />
         </LogoContainer>
         <ButtonContainer>
-          <Button dtm="instructions" label={"Continuar"} onClick={() => history.replace(constants.routes.instructions.second)} />
+          <Button dtm="instructions" label={"Continuar"} onClick={() => history.replace(constants.routes.video)} />
         </ButtonContainer>
       </Instructions>
     </>
