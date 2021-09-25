@@ -8,8 +8,17 @@ import VideoPage from "./modules/video";
 import ReplayPage from "./modules/replay";
 import * as Detection from "./detection";
 import FirstInstructionsPage from "./modules/first_instructions";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Loader from "./components/loader";
+
+const GlobalStyle = createGlobalStyle`
+  body.hand-talk {
+    height: ${({ height }) => height}px;
+    width: ${({ width }) => width}px;
+    background-color: #1a1a1a;
+    overflow: hidden;
+  }
+`;
 
 const AppContainer = styled.div`
   height: ${({ height }) => height}px;
@@ -66,28 +75,31 @@ const App = () => {
   }, []);
 
   return (
-    <AppContainer width={dimensions.width} height={dimensions.height}>
-      <Loader loading={loading}>
-        <h1>CARREGANDO...</h1>
-      </Loader>
-      <Switch>
-        <Route exact path={constants.routes.landing} component={LandingPage} />
-        <Route path={constants.routes.intro} component={IntroPage} />
-        <Route path={constants.routes.replay}>
-          <ReplayPage onInit={close} />
-        </Route>
-        <Route path={constants.routes.instructions.first}>
-          <FirstInstructionsPage started={started} detected={detected} onInit={init} close={close} />
-        </Route>
-        <Route path={constants.routes.instructions.second}>
-          <InstructionsPage started={started} detected={detected} onInit={init} close={close} />
-        </Route>
-        <Route path={constants.routes.video}>
-          <VideoPage onInit={init} started={started} detected={detected} onClose={close} />
-        </Route>
-        <Redirect to={constants.routes.landing} />
-      </Switch>
-    </AppContainer>
+    <>
+      <GlobalStyle width={dimensions.width} height={dimensions.height} />
+      <AppContainer width={dimensions.width} height={dimensions.height}>
+        <Loader loading={loading}>
+          <h1>CARREGANDO...</h1>
+        </Loader>
+        <Switch>
+          <Route exact path={constants.routes.landing} component={LandingPage} />
+          <Route path={constants.routes.intro} component={IntroPage} />
+          <Route path={constants.routes.replay}>
+            <ReplayPage onInit={close} />
+          </Route>
+          <Route path={constants.routes.instructions.first}>
+            <FirstInstructionsPage started={started} detected={detected} onInit={init} close={close} />
+          </Route>
+          <Route path={constants.routes.instructions.second}>
+            <InstructionsPage started={started} detected={detected} onInit={init} close={close} />
+          </Route>
+          <Route path={constants.routes.video}>
+            <VideoPage onInit={init} started={started} detected={detected} onClose={close} />
+          </Route>
+          <Redirect to={constants.routes.landing} />
+        </Switch>
+      </AppContainer>
+    </>
   );
 };
 

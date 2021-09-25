@@ -7,7 +7,6 @@
     <meta name="theme-color" content="#000000" />
     <base href="%PUBLIC_URL%/" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
-    <meta name="description" content="Web site created using create-react-app" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
@@ -25,6 +24,7 @@
     -->
     <title>Hand Talk</title>
 
+    <!-- <script src="//assets.adobedtm.com/ea8c57fea068/8z545c8a794c6/launch-77f478adfda1.min.js"></script> -->
     <script>
       var digitalData = window.digitalData || {
         pageInfo: {},
@@ -44,13 +44,20 @@
       digitalData.pageInfo.siteName = "quantum_brazil";
       digitalData.pageInfo.url = window.location.href;
     </script>
-
-    <script src="//assets.adobedtm.com/ea8c57fea068/8545c8a794c6/launch-1e29bc454c96-staging.min.js"></script>
   </head>
-  <body>
+  <body class="hand-talk">
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script src="https://assets.gm.com/responsive-iframe.min.js"></script>
+    -->
+    <script src="https://plugin.handtalk.me/web/latest/handtalk.min.js"></script>
+    <script>
+      var ht = new HT({
+        token: "f37938411810f9703d8d7b100707262a",
+        avatar: "MAYA",
+        side: "left",
+      });
+    </script>
     <script type="text/javascript">
       if (typeof _satellite !== "undefined") _satellite.pageBottom();
     </script>
