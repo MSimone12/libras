@@ -154,7 +154,7 @@ const Hand = styled.img`
 
 const Counter = styled.p`
   color: #c78902;
-  font-size: 32px;
+  font-size: 20px;
   text-transform: uppercase;
   text-align: center;
 `;
@@ -188,6 +188,7 @@ const videos = {
 
 const VideoPage = ({ started, detected, onInit, onClose }) => {
   const history = useHistory();
+  const [lockDetection, setLockDetection] = useState(false);
   const [currentVideo, setCurrentVideo] = useState(videos.detected);
   const [currentTime, setCurrentTime] = useState(0);
   const [activated, setActivated] = useState(false);
@@ -205,16 +206,24 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
   }, [onInit, onClose, history]);
 
   useEffect(() => {
-    setCurrentVideo(detected ? videos.nonDetected : videos.detected);
-  }, [detected]);
+    let interval;
+    if (!lockDetection) {
+      interval = setTimeout(() => {
+        setLockDetection(true);
+        setCurrentVideo((current) => (current === videos.detected ? videos.nonDetected : videos.detected));
+      }, 1000);
 
-  // useEffect(() => {
-  //   if (counter >= 2) {
-  //     setCounter(0);
-  //     setLockDetection(true);
-  //     setCurrentVideo((current) => (current === videos.detected ? videos.nonDetected : videos.detected));
-  //   }
-  // }, [counter]);
+      if (!detected) {
+        clearTimeout(interval);
+      }
+    } else {
+      if (!detected) setLockDetection(false);
+    }
+
+    return () => {
+      clearTimeout(interval);
+    };
+  }, [detected, lockDetection]);
 
   useEffect(() => {
     const media = document.getElementById("videoplayer");
@@ -243,7 +252,7 @@ const VideoPage = ({ started, detected, onInit, onClose }) => {
             />
           </VideoPlayerContainer>
           <InstructionsContainer>
-            <InstructionsText>{!detected ? constants.video.activated : constants.video.deactivated}</InstructionsText>
+            <InstructionsText>Para alternar entre as versões do clipe, mostre a mão para a câmera.</InstructionsText>
             <InstructionsText>
               <Highlight>Caso o vídeo não comece automaticamente, aperte o play.</Highlight>
             </InstructionsText>

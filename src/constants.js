@@ -3,8 +3,8 @@ const constants = {
     text: `NO BRASIL, HÁ MAIS DE 10 MILHÕES DE SURDOS.\nELES SE CONECTAM COM O MUNDO USANDO AS MÃOS.\nE AGORA, É DESSE JEITO QUE VOCÊ VAI OUVIR UM NOVO\n SUCESSO.`,
   },
   video: {
-    deactivated: "Para ativar o modo Libras, mostre a mão pra câmera",
-    activated: "Para ativar o modo cantado, mostre a mão pra câmera",
+    deactivated: "Para ativar o modo Libras, tire a mão da câmera",
+    activated: "Para ativar o modo cantado, mantenha a mão na câmera",
   },
 
   routes: {

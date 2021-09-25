@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-import first from "../assets/icones/1.png";
-import second from "../assets/icones/2.png";
-import third from "../assets/icones/3.png";
-import fourth from "../assets/icones/4.png";
+import first from "../assets/icones/01.png";
+import second from "../assets/icones/02.png";
+import third from "../assets/icones/03.png";
+import fourth from "../assets/icones/04.png";
 import { useHistory } from "react-router";
 import constants from "../constants";
 import Logo from "../components/logo";
